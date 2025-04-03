@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="comic-compiler",
     version="1.0",
-    py_modules=["main"],
+    packages=find_packages(where='src'),
     entry_points={
         "console_scripts": [
             "comic-compile=main:main",
