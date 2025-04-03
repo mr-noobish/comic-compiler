@@ -1,8 +1,9 @@
 import argparse
 import os
 import subprocess
-import PyPDF2
 import json
+from pdf_stuff import get_pdfs, combine_pdfs
+from path_stuff import make_abs
 
 def main():
     args = parse()
@@ -55,53 +56,10 @@ def sub_lists(list1, list2):
             list3.append(item1)
     return list3
 
-def make_abs(files):
-    new_list = []
-    for file in files:
-        new_file = os.path.abspath(file)
-        new_list.append(new_file)
-    return new_list
-
-def get_pdfs(pdf_location: str):
-    dir = os.listdir(pdf_location)
-    original_dir = os.getcwd()
-    os.chdir(pdf_location)
-    pdf_files = [item for item in dir if item.endswith(".pdf")]
-    pdf_files = make_abs(pdf_files)
-    os.chdir(original_dir)
-    return pdf_files
-
-def is_valid_pdf(file_path):
-    try:
-        with open(file_path, 'rb') as f:
-            PyPDF2.PdfReader(f)
-        return True
-    except PyPDF2.errors.PdfReadError:
-        return False
-
-def combine_pdfs(pdf_list, output_filename, output_path):
-    pdf_merger = PyPDF2.PdfMerger()
-    dir = os.getcwd()
-    os.chdir(output_path)
-
-    for pdf_file in sorted(pdf_list):
-        if not is_valid_pdf(pdf_file):
-            print(f"Skipping invalid PDF file: {pdf_file}")
-            continue
-
-        pdf_merger.append(pdf_file)
-    if not output_filename.endswith(".pdf"):
-        output_filename += ".pdf"
-    
-    with open(output_filename, 'wb') as f:
-        pdf_merger.write(f)
-    os.chdir(dir)
-    return output_filename
-
 def to_epub(pdf_file, output_path, title, author, config):
     print(pdf_file)
     dir = os.getcwd()
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.join(os.path.dirname(__file__), '..'))
     cmd = ['.\\KCC_c2e_7.3.3.exe']
     profile = config['kcc-profile']
     height = config['height']
