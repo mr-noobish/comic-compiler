@@ -1,1 +1,1 @@
-__all__ = ["main", "path_stuff", "pdf_stuff"]
+__all__ = ["main", "path_stuff", "pdf_stuff", "utils"]

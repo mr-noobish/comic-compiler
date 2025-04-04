@@ -1,9 +1,10 @@
 import argparse
 import os
-import subprocess
 import json
+import sys
 from pdf_stuff import get_pdfs, combine_pdfs
 from path_stuff import make_abs
+from utils.paths import *
 
 def main():
     args = parse()
@@ -32,13 +33,12 @@ def parse():
     if args['input_directory'] is not os.getcwd():
         args['input_directory'] = os.path.abspath(args['input_directory'])
     if args['input_directory'].endswith('"'):
-        args['input_directory'] = args['input_directory'][0:len(args['input_directory']) - 1] + "\\"
+        args['input_directory'] = args['input_directory'][0:len(args['input_directory']) - 1] + os.pathsep
     if args['output_directory'] is not os.getcwd():
         args['output_directory'] = os.path.abspath(args['output_directory'])
     if args['output_directory'].endswith('"'):
-        args['output_directory'] == args['output_directory'][0:len(args['output_directory']) - 1] + "\\"
-    if os.path.dirname(__file__) is not os.getcwd:
-        args['config_file'] = os.path.join(os.path.dirname(__file__), args['config_file'])
+        args['output_directory'] == args['output_directory'][0:len(args['output_directory']) - 1] + os.pathsep
+    args['config_file'] = os.path.join(config_dir(), args['config_file'])
     if args['exclusions']:
         args['exclusions'] = make_abs(args['exclusions'])
     
@@ -57,10 +57,7 @@ def sub_lists(list1, list2):
     return list3
 
 def to_epub(pdf_file, output_path, title, author, config):
-    print(pdf_file)
-    dir = os.getcwd()
-    os.chdir(os.path.join(os.path.dirname(__file__), '..'))
-    cmd = ['.\\KCC_c2e_7.3.3.exe']
+    cmd = [r" ¯\_(ツ)_/¯"]
     profile = config['kcc-profile']
     height = config['height']
     width = config['width']
@@ -101,9 +98,22 @@ def to_epub(pdf_file, output_path, title, author, config):
     cmd.append('-f')
     cmd.append('EPUB')
     cmd.append('--nokepub')
+    sys.argv = cmd
+    call_kcc()
 
-    subprocess.run(cmd)
-    os.chdir(dir)
+def call_kcc():
+    from external.kcc.kcc import modify_path
+
+    if sys.version_info < (3, 8, 0):
+        print('ERROR: This is a Python 3.8+ script!')
+        sys.exit(1)
+    from multiprocessing import freeze_support, set_start_method
+    from external.kcc.kindlecomicconverter.startup import startC2E
+
+    modify_path()
+    set_start_method('spawn')
+    freeze_support()
+    startC2E()
 
 if __name__ == '__main__':
     main()
