@@ -8,6 +8,12 @@ class CleanKccSubmodule(Command):
     description = "Remove unused stuff from the Kcc submodule"
     user_options = []
 
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
     def run(self):
         submodule_path = os.path.join(src_dir(), 'external', 'kcc')
 
@@ -55,7 +61,7 @@ class CleanKccSubmodule(Command):
 class InstallCommand(install):
     def run(self):
         install.run(self)
-        
+
         self.run_command("clean_kcc")
 
 setup(
