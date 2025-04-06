@@ -2,7 +2,7 @@ from setuptools import setup, find_packages, Command
 from setuptools.command.install import install
 import shutil
 import os
-from src.utils.paths import *
+from src.comic_compiler.utils.paths import *
 
 class CleanKccSubmodule(Command):
     description = "Remove unused stuff from the Kcc submodule"
@@ -15,7 +15,7 @@ class CleanKccSubmodule(Command):
         pass
 
     def run(self):
-        submodule_path = os.path.join(src_dir(), 'external', 'kcc')
+        submodule_path = os.path.join(src_dir(), 'comic_compiler', 'external', 'kcc')
 
         unwanted_paths = [
             os.path.join(submodule_path, 'gui'),
@@ -89,7 +89,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "comic-compile=main:main",
+            "comic-compile=comic_compiler.main:main",
         ],
     },
      project_urls={

@@ -1,6 +1,6 @@
 import os
 import PyPDF2
-from path_stuff import make_abs
+from .path_stuff import make_abs
 
 def get_pdfs(pdf_location: str):
     dir = os.listdir(pdf_location)

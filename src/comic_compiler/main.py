@@ -2,9 +2,9 @@ import argparse
 import os
 import json
 import sys
-from pdf_stuff import get_pdfs, combine_pdfs
-from path_stuff import make_abs
-from utils.paths import *
+from .pdf_stuff import get_pdfs, combine_pdfs
+from .path_stuff import make_abs
+from .utils.paths import *
 
 def main():
     args = parse()
@@ -102,13 +102,13 @@ def to_epub(pdf_file, output_path, title, author, config):
     call_kcc()
 
 def call_kcc():
-    from external.kcc.kcc import modify_path
+    from .external.kcc.kcc import modify_path
 
     if sys.version_info < (3, 8, 0):
         print('ERROR: This is a Python 3.8+ script!')
         sys.exit(1)
     from multiprocessing import freeze_support, set_start_method
-    from external.kcc.kindlecomicconverter.startup import startC2E
+    from .external.kcc.kindlecomicconverter.startup import startC2E
 
     modify_path()
     set_start_method('spawn')
