@@ -49,11 +49,11 @@ def sub_lists(list1, list2):
         raise Exception("Cannot subtract bigger list from smaller list.")
     list3 = []
 
-    for item1 in list1:
-        if item1 in list2:
+    for item in list1:
+        if item in list2:
             continue
         else:
-            list3.append(item1)
+            list3.append(item)
     return list3
 
 def to_epub(pdf_file, output_path, title, author, config):
