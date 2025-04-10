@@ -1,3 +1,0 @@
-[submodule "src/comic_compiler/external/kcc"]
-	path = src/comic_compiler/external/kcc
-	url = https://github.com/ciromattia/kcc

@@ -33,11 +33,11 @@ def parse():
     if args['input_directory'] is not os.getcwd():
         args['input_directory'] = os.path.abspath(args['input_directory'])
     if args['input_directory'].endswith('"'):
-        args['input_directory'] = args['input_directory'][0:len(args['input_directory']) - 1] + os.pathsep
+        args['input_directory'] = args['input_directory'][0:len(args['input_directory']) - 1]
     if args['output_directory'] is not os.getcwd():
         args['output_directory'] = os.path.abspath(args['output_directory'])
     if args['output_directory'].endswith('"'):
-        args['output_directory'] == args['output_directory'][0:len(args['output_directory']) - 1] + os.pathsep
+        args['output_directory'] == args['output_directory'][0:len(args['output_directory']) - 1]
     args['config_file'] = os.path.join(config_dir(), args['config_file'])
     if args['exclusions']:
         args['exclusions'] = make_abs(args['exclusions'])

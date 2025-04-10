@@ -8,3 +8,5 @@ dist/
 *.so
 *~
 .vscode/
+*.pdf
+*.epub
